@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="CloudPlay">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>CloudPlay</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Auth Screen -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-bg"></div>
+    <div class="auth-content">
+      <div class="logo-mark">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="24" fill="rgba(255,255,255,0.08)"/>
+          <path d="M16 14 L16 34 L36 24 Z" fill="white"/>
+          <circle cx="24" cy="24" r="8" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        </svg>
+      </div>
+      <h1 class="app-name">CloudPlay</h1>
+      <p class="app-tagline">Your media. Your cloud. Anywhere.</p>
+      <button id="sign-in-btn" class="btn-primary" onclick="signIn()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="margin-right:8px">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Sign in with Google
+      </button>
+      <p class="auth-note">Connects to your Google Drive. Nothing is uploaded or stored.</p>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="app-screen" class="screen">
+
+    <!-- Sidebar -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-small">
+          <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
+            <path d="M16 14 L16 34 L36 24 Z" fill="white"/>
+          </svg>
+          CloudPlay
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Library</div>
+        <button class="nav-item active" data-view="home" onclick="setView('home', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+          Home
+        </button>
+        <button class="nav-item" data-view="music" onclick="setView('music', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          Music
+        </button>
+        <button class="nav-item" data-view="videos" onclick="setView('videos', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23,7 16,12 23,17"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          Videos
+        </button>
+        <button class="nav-item" data-view="playlists" onclick="setView('playlists', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          Playlists
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Browse</div>
+        <button class="nav-item" data-view="genres" onclick="setView('genres', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Genres
+        </button>
+        <button class="nav-item" data-view="artists" onclick="setView('artists', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Artists
+        </button>
+        <button class="nav-item" data-view="albums" onclick="setView('albums', this)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+          Albums
+        </button>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-info" id="user-info"></div>
+        <button class="nav-item" onclick="signOut()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign out
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+
+      <!-- Top Bar -->
+      <div class="topbar">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="search-bar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="search-input" placeholder="Search your library…" oninput="handleSearch(this.value)">
+        </div>
+        <button class="refresh-btn" onclick="refreshLibrary()" title="Refresh library">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23,4 23,10 17,10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        </button>
+      </div>
+
+      <!-- Views -->
+      <div class="content-area">
+
+        <!-- Home View -->
+        <div id="view-home" class="view active">
+          <div class="view-header">
+            <h2 id="greeting">Good evening</h2>
+            <p class="view-subtitle">What do you want to play?</p>
+          </div>
+          <div id="recent-section" class="section" style="display:none">
+            <h3 class="section-title">Recently played</h3>
+            <div id="recent-grid" class="media-grid"></div>
+          </div>
+          <div class="section">
+            <h3 class="section-title">Your library</h3>
+            <div id="home-stats" class="stats-row"></div>
+          </div>
+          <div id="loading-state" class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading your library from Google Drive…</p>
+          </div>
+        </div>
+
+        <!-- Music View -->
+        <div id="view-music" class="view">
+          <div class="view-header">
+            <h2>Music</h2>
+            <div class="view-controls">
+              <select onchange="sortFiles('music', this.value)" class="sort-select">
+                <option value="name">Name</option>
+                <option value="artist">Artist</option>
+                <option value="album">Album</option>
+                <option value="date">Date added</option>
+              </select>
+            </div>
+          </div>
+          <div id="music-list" class="track-list"></div>
+        </div>
+
+        <!-- Videos View -->
+        <div id="view-videos" class="view">
+          <div class="view-header">
+            <h2>Videos</h2>
+          </div>
+          <div id="video-grid" class="media-grid video-grid"></div>
+        </div>
+
+        <!-- Playlists View -->
+        <div id="view-playlists" class="view">
+          <div class="view-header">
+            <h2>Playlists</h2>
+            <button class="btn-secondary" onclick="showCreatePlaylist()">+ New playlist</button>
+          </div>
+          <div id="playlists-list" class="playlists-list"></div>
+        </div>
+
+        <!-- Genres View -->
+        <div id="view-genres" class="view">
+          <div class="view-header">
+            <h2>Genres</h2>
+          </div>
+          <div id="genres-grid" class="genre-grid"></div>
+        </div>
+
+        <!-- Artists View -->
+        <div id="view-artists" class="view">
+          <div class="view-header">
+            <h2>Artists</h2>
+          </div>
+          <div id="artists-grid" class="artist-grid"></div>
+        </div>
+
+        <!-- Albums View -->
+        <div id="view-albums" class="view">
+          <div class="view-header">
+            <h2>Albums</h2>
+          </div>
+          <div id="albums-grid" class="media-grid"></div>
+        </div>
+
+        <!-- Search Results View -->
+        <div id="view-search" class="view">
+          <div class="view-header">
+            <h2>Search results</h2>
+          </div>
+          <div id="search-results" class="track-list"></div>
+        </div>
+
+        <!-- Detail View (artist/album/genre drill-down) -->
+        <div id="view-detail" class="view">
+          <div class="view-header detail-header">
+            <button class="back-btn" onclick="goBack()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+              Back
+            </button>
+            <h2 id="detail-title"></h2>
+          </div>
+          <div id="detail-list" class="track-list"></div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Now Playing Bar -->
+    <div id="now-playing-bar" class="now-playing-bar hidden">
+      <div class="np-info" onclick="togglePlayer()">
+        <div class="np-art" id="np-art">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="np-text">
+          <div class="np-title" id="np-title">—</div>
+          <div class="np-artist" id="np-artist">—</div>
+        </div>
+      </div>
+      <div class="np-controls">
+        <button class="np-btn" onclick="prevTrack()" title="Previous">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19,20 9,12 19,4"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+        </button>
+        <button class="np-btn play-pause" id="play-pause-btn" onclick="togglePlayPause()">
+          <svg id="play-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+          <svg id="pause-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <button class="np-btn" onclick="nextTrack()" title="Next">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,4 15,12 5,20"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+        </button>
+      </div>
+      <div class="np-progress-wrap">
+        <div class="np-progress" id="np-progress" onclick="seekTo(event)">
+          <div class="np-progress-fill" id="np-progress-fill"></div>
+        </div>
+        <div class="np-time"><span id="np-current">0:00</span> / <span id="np-duration">0:00</span></div>
+      </div>
+      <div class="np-extra">
+        <button class="np-btn" onclick="toggleShuffle()" id="shuffle-btn" title="Shuffle">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,3 21,3 21,8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21,16 21,21 16,21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+        </button>
+        <div class="np-volume">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 010 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
+          <input type="range" id="volume-slider" min="0" max="100" value="80" oninput="setVolume(this.value)">
+        </div>
+      </div>
+    </div>
+
+    <!-- Full Player Modal -->
+    <div id="full-player" class="full-player hidden">
+      <div class="fp-bg" id="fp-bg"></div>
+      <div class="fp-content">
+        <button class="fp-close" onclick="togglePlayer()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18,15 12,9 6,15"/></svg>
+        </button>
+        <div class="fp-art-large" id="fp-art">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="fp-info">
+          <div class="fp-title" id="fp-title">—</div>
+          <div class="fp-artist" id="fp-artist">—</div>
+          <div class="fp-album" id="fp-album"></div>
+        </div>
+        <div class="fp-progress-wrap">
+          <div class="fp-progress" id="fp-progress" onclick="seekTo(event, true)">
+            <div class="fp-progress-fill" id="fp-progress-fill"></div>
+          </div>
+          <div class="fp-time-row">
+            <span id="fp-current">0:00</span>
+            <span id="fp-duration">0:00</span>
+          </div>
+        </div>
+        <div class="fp-controls">
+          <button class="fp-btn" onclick="toggleShuffle()" id="fp-shuffle-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16,3 21,3 21,8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21,16 21,21 16,21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+          </button>
+          <button class="fp-btn" onclick="prevTrack()">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="19,20 9,12 19,4"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+          </button>
+          <button class="fp-btn fp-play-pause" id="fp-play-pause-btn" onclick="togglePlayPause()">
+            <svg id="fp-play-icon" width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+            <svg id="fp-pause-icon" width="36" height="36" viewBox="0 0 24 24" fill="currentColor" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+          </button>
+          <button class="fp-btn" onclick="nextTrack()">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,4 15,12 5,20"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+          </button>
+          <button class="fp-btn" onclick="toggleRepeat()" id="fp-repeat-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17,1 21,5 17,9"/><path d="M3,11V9a4,4,0,0,1,4-4h14"/><polyline points="7,23 3,19 7,15"/><path d="M21,13v2a4,4,0,0,1-4,4H3"/></svg>
+          </button>
+        </div>
+        <div class="fp-volume">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/></svg>
+          <input type="range" id="fp-volume-slider" min="0" max="100" value="80" oninput="setVolume(this.value)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11,5 6,9 2,9 2,15 6,15 11,19"/><path d="M19.07 4.93a10 10 0 010 14.14"/><path d="M15.54 8.46a5 5 0 010 7.07"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div id="video-player" class="video-player hidden">
+      <div class="vp-header">
+        <button class="vp-close" onclick="closeVideoPlayer()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <span id="vp-title"></span>
+      </div>
+      <video id="video-element" controls playsinline webkit-playsinline></video>
+    </div>
+
+    <!-- Create Playlist Modal -->
+    <div id="playlist-modal" class="modal hidden">
+      <div class="modal-backdrop" onclick="hideCreatePlaylist()"></div>
+      <div class="modal-box">
+        <h3>New playlist</h3>
+        <input type="text" id="playlist-name" placeholder="Playlist name" class="modal-input">
+        <div class="modal-genres">
+          <p class="modal-label">Auto-add by genre (optional)</p>
+          <div id="genre-checkboxes" class="genre-checkboxes"></div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-ghost" onclick="hideCreatePlaylist()">Cancel</button>
+          <button class="btn-primary" onclick="createPlaylist()">Create</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Hidden audio element -->
+  <audio id="audio-player" preload="metadata"></audio>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
